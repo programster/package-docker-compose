@@ -1,12 +1,3 @@
-Docker Compose PHP Package
-==========================
-
-A package to make it quick and easy to build complex docker-compose files without making a mistake.
-
-## Example Usage
-
-```php
-
 <?php
 
 require_once(__DIR__ . '/../vendor/autoload.php');
@@ -40,27 +31,29 @@ $hydraService = new Programster\DockerCompose\Service(
 
 $config = new \Programster\DockerCompose\DockerCompose("3.8", $hydraService);
 print $config;
-```
 
-This will output:
-```yaml
----
-version: "3.8"
-services:
-  hydra:
-    image: oryd/hydra:v1.10.3
-    ports:
-    - 4444:4444
-    - 4445:4445
-    - 5555:5555
-    restart: unless-stopped
-    container_name: hydra
-    volumes:
-    - type: bind
-      target: /etc/config/hydra
-      source: ./hydra
-    environment:
-    - DSN=postgres://hydra:bob@sally:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
-    command: serve -c /etc/config/hydra/hydra.yml all --dangerous-force-http
-...
-```
+/*
+$hydraService = array(
+    "image" => "oryd/hydra:v1.10.3",
+    "container_name" => "hydra",
+    "restart" => "unless-stopped",
+    "depends_on" => array("hydra-migrate"),
+    "ports" => array(
+        "4444:4444",
+        "4445:4445",
+        "5555:5555",
+    ),
+    "volumes" => array(
+        array(
+            "type" => "bind",
+            "source" => './hydra',
+            "target" => "/etc/config/hydra",
+        ),
+    ),
+    "environment" => array(
+        "DSN=postgres://hydra:bob@sally:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+    ),
+    "command" => 'serve -c /etc/config/hydra/hydra.yml all --dangerous-force-http'
+);
+ *
+ */

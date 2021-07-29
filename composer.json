@@ -1,0 +1,24 @@
+{
+    "name": "programster/docker-compose",
+    "type": "library",
+    "description": "Package for easily creating complex docker-compose files and exposing all their possible options.",
+    "keywords": ["docker", "docker-compose"],
+    "homepage": "http://blog.programster.org/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stuart Page",
+            "email": "sdpagent@gmail.com",
+            "homepage": "http://blog.programster.org/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Programster\\DockerCompose\\": "src/"
+        }
+    }
+}
