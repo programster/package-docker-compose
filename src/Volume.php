@@ -11,12 +11,12 @@ final class Volume implements InterfaceArrayable
 {
     private string $m_type;
     private string $m_containerPath;
-    private ?string $m_name;
-    private ?string $m_hostPath; // path on host. May not be set in case of "named volumes"
-    private bool $m_isReadOnly;
-    private ?BindPropagationMode $m_bindPropagationMode;
+    private ?string $m_name = null;
+    private ?string $m_hostPath = null; // path on host. May not be set in case of "named volumes"
+    private bool $m_isReadOnly = false;
+    private ?BindPropagationMode $m_bindPropagationMode = null;
     private bool $m_createHostPath;
-    private ?string $m_consistency;
+    private ?string $m_consistency = null;
     private ?bool $m_noCopy = null;
     private ?int $m_tmpfsSize = null;
 
@@ -178,7 +178,7 @@ final class Volume implements InterfaceArrayable
 
         if ($this->m_name !== null)
         {
-            $arrayForm['source'] = $name;
+            $arrayForm['source'] = $this->m_name;
         }
 
         if ($this->m_hostPath !== null)
