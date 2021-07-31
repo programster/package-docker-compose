@@ -137,12 +137,12 @@ final class Service implements InterfaceArrayable
 
         if ($this->m_dependencies !== null)
         {
-            $arrayForm['dependencies'] = array();
+            $arrayForm['depends_on'] = array();
 
             foreach ($this->m_dependencies  as $dependency)
             {
                 /* @var $dependency Service */
-                $arrayForm['dependencies'][] = $dependency->getName();
+                $arrayForm['depends_on'][] = $dependency->getName();
             }
         }
 
