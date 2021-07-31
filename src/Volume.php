@@ -33,7 +33,7 @@ final class Volume implements InterfaceArrayable
      * @param string|null $consistency
      * @return Volume
      */
-    public static function createNameVolume(
+    public static function createNamedVolume(
         string $name,
         string $containerPath,
         bool $isReadOnly = false,
