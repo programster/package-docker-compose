@@ -63,9 +63,6 @@ final class Service implements InterfaceArrayable
     }
 
 
-    public function getName() : string { return $this->m_name; }
-    public function getNetworks() { return $this->m_networks; }
-
     public function toArray(): array
     {
         $arrayForm = array(
@@ -145,4 +142,10 @@ final class Service implements InterfaceArrayable
 
         return $arrayForm;
     }
+
+
+    # Accessors
+    public function getName() : string { return $this->m_name; }
+    public function getNetworks() { return $this->m_networks; }
+    public function getVolumes() : ?VolumeCollection { return $this->m_volumes; }
 }

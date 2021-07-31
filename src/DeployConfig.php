@@ -1,9 +1,5 @@
 <?php
 
-/*
- * Key value pairs to pass to the driver. These options are driver-dependent - consult the driver's documentation
- * for more information. Optional.
- */
 
 namespace Programster\DockerCompose;
 

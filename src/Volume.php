@@ -16,6 +16,8 @@ final class Volume implements InterfaceArrayable
     private bool $m_isReadOnly = false;
     private ?BindPropagationMode $m_bindPropagationMode = null;
     private bool $m_createHostPath;
+    private string $m_driver;
+    private array $m_driverOptions;
     private ?string $m_consistency = null;
     private ?bool $m_noCopy = null;
     private ?int $m_tmpfsSize = null;
@@ -38,7 +40,9 @@ final class Volume implements InterfaceArrayable
         string $containerPath,
         bool $isReadOnly = false,
         bool $noCopy = false,
-        ?string $consistency = null
+        ?string $consistency = null,
+        string $driver = "local",
+        DriverOption ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -47,6 +51,8 @@ final class Volume implements InterfaceArrayable
         $volume->m_containerPath = $containerPath;
         $volume->m_isReadOnly = $isReadOnly;
         $volume->m_noCopy = $noCopy;
+        $volume->m_driver = $driver;
+        $volume->m_driverOptions = $driverOptions;
         return $volume;
     }
 
@@ -56,7 +62,9 @@ final class Volume implements InterfaceArrayable
         string $containerPath,
         bool $isReadOnly = false,
         bool $noCopy = false,
-        ?string $consistency = null
+        ?string $consistency = null,
+        string $driver = "local",
+        DriverOption ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -65,6 +73,8 @@ final class Volume implements InterfaceArrayable
         $volume->m_containerPath = $containerPath;
         $volume->m_isReadOnly = $isReadOnly;
         $volume->m_noCopy = $noCopy;
+        $volume->m_driver = $driver;
+        $volume->m_driverOptions = $driverOptions;
         return $volume;
     }
 
@@ -93,7 +103,9 @@ final class Volume implements InterfaceArrayable
         bool $isReadOnly = false,
         bool $createHostPath = true,
         ?BindPropagationMode $propagationMode = null,
-        ?string $consistency = null
+        ?string $consistency = null,
+        string $driver = "local",
+        DriverOption ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -104,6 +116,9 @@ final class Volume implements InterfaceArrayable
         $volume->m_isReadOnly = $isReadOnly;
         $volume->m_bindPropagationMode = $propagationMode;
         $volume->m_createHostPath = $createHostPath;
+        $volume->m_driver = $driver;
+        $volume->m_driverOptions = $driverOptions;
+        $volume->m_consistency = $consistency;
         $volume->m_noCopy = null;
         return $volume;
     }
@@ -125,7 +140,9 @@ final class Volume implements InterfaceArrayable
         string $containerPath,
         bool $isReadOnly = false,
         ?int $sizeInBytes = null,
-        ?string $consistency = null
+        ?string $consistency = null,
+        string $driver = "local",
+        DriverOption ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -133,6 +150,9 @@ final class Volume implements InterfaceArrayable
         $volume->m_containerPath = $containerPath;
         $volume->m_isReadOnly = $isReadOnly;
         $volume->m_tmpfsSize = $sizeInBytes;
+        $volume->m_driver = $driver;
+        $volume->m_driverOptions = $driverOptions;
+        $volume->m_consistency = $consistency;
         $volume->m_noCopy = null;
         return $volume;
     }
@@ -152,7 +172,9 @@ final class Volume implements InterfaceArrayable
         string $hostPath,
         string $containerPath,
         bool $isReadOnly = false,
-        ?string $consistency = null
+        ?string $consistency = null,
+        string $driver = "local",
+        DriverOption ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -161,6 +183,8 @@ final class Volume implements InterfaceArrayable
         $volume->m_containerPath = $containerPath;
         $volume->m_isReadOnly = $isReadOnly;
         $volume->m_consistency = $consistency;
+        $volume->m_driver = $driver;
+        $volume->m_driverOptions = $driverOptions;
         return $volume;
     }
 
@@ -221,8 +245,6 @@ final class Volume implements InterfaceArrayable
             $arrayForm['tmpfs']['size'] = $this->m_tmpfsSize;
         }
 
-
-
         return $arrayForm;
     }
 
@@ -230,4 +252,6 @@ final class Volume implements InterfaceArrayable
     # Accessors
     public function getName() : ?string { return $this->m_name; }
     public function getType() : string { return $this->m_type; }
+    public function getDriver() : string { return $this->m_driver; }
+    public function getDriverOptions() : array { return $this->m_driverOptions; }
 }
