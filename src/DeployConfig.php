@@ -15,12 +15,12 @@ final class DeployConfig implements InterfaceArrayable
 
 
     public function __construct(
-        ?RestartPolicy $restartPolicy,
+        ?RestartPolicy $restartPolicy = null,
         ?DeploymentMode $mode = null,
         ?ResourceConfig $resourceConfig = null,
-        ?RolloutConfig $updateConfig,
-        ?RolloutConfig $rollbackConfig,
-        ?PlacementConfig $placement
+        ?RolloutConfig $updateConfig  = null,
+        ?RolloutConfig $rollbackConfig = null,
+        ?PlacementConfig $placement = null
     )
     {
         $this->m_restartPolicy = $restartPolicy;
