@@ -9,15 +9,13 @@ namespace Programster\DockerCompose;
 
 final class Volume implements InterfaceArrayable
 {
+    private ?NamedVolumeConfig $m_namedVolumeConfig = null;
     private string $m_type;
     private string $m_containerPath;
-    private ?string $m_name = null;
     private ?string $m_hostPath = null; // path on host. May not be set in case of "named volumes"
     private bool $m_isReadOnly = false;
     private ?BindPropagationMode $m_bindPropagationMode = null;
     private bool $m_createHostPath;
-    private string $m_driver;
-    private array $m_driverOptions;
     private ?string $m_consistency = null;
     private ?bool $m_noCopy = null;
     private ?int $m_tmpfsSize = null;
@@ -36,45 +34,19 @@ final class Volume implements InterfaceArrayable
      * @return Volume
      */
     public static function createNamedVolume(
-        string $name,
+        NamedVolumeConfig $namedVolumeConfig,
         string $containerPath,
         bool $isReadOnly = false,
         bool $noCopy = false,
-        ?Consistency $consistency = null,
-        string $driver = "local",
-        DriverOption ...$driverOptions
+        ?Consistency $consistency = null
     ) : Volume
     {
         $volume = new Volume();
+        $volume->m_namedVolumeConfig = $namedVolumeConfig;
         $volume->m_type = VolumeType::createVolume();
-        $volume->m_name = $name;
         $volume->m_containerPath = $containerPath;
         $volume->m_isReadOnly = $isReadOnly;
         $volume->m_noCopy = $noCopy;
-        $volume->m_driver = $driver;
-        $volume->m_driverOptions = $driverOptions;
-        return $volume;
-    }
-
-
-    public static function createNormal(
-        string $hostPath,
-        string $containerPath,
-        bool $isReadOnly = false,
-        bool $noCopy = false,
-        ?Consistency $consistency = null,
-        string $driver = "local",
-        DriverOption ...$driverOptions
-    ) : Volume
-    {
-        $volume = new Volume();
-        $volume->m_type = VolumeType::createVolume();
-        $volume->m_hostPath = $hostPath;
-        $volume->m_containerPath = $containerPath;
-        $volume->m_isReadOnly = $isReadOnly;
-        $volume->m_noCopy = $noCopy;
-        $volume->m_driver = $driver;
-        $volume->m_driverOptions = $driverOptions;
         return $volume;
     }
 
@@ -200,9 +172,9 @@ final class Volume implements InterfaceArrayable
             'target' => $this->m_containerPath,
         );
 
-        if ($this->m_name !== null)
+        if ($this->m_namedVolumeConfig !== null)
         {
-            $arrayForm['source'] = $this->m_name;
+            $arrayForm['source'] = $this->m_namedVolumeConfig->getName();
         }
 
         if ($this->m_hostPath !== null)
@@ -250,8 +222,6 @@ final class Volume implements InterfaceArrayable
 
 
     # Accessors
-    public function getName() : ?string { return $this->m_name; }
+    public function getNamedVolumeConfig() : ?NamedVolumeConfig { return $this->m_namedVolumeConfig; }
     public function getType() : string { return $this->m_type; }
-    public function getDriver() : string { return $this->m_driver; }
-    public function getDriverOptions() : array { return $this->m_driverOptions; }
 }

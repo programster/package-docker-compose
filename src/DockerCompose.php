@@ -7,7 +7,7 @@ final class DockerCompose implements \Stringable, InterfaceArrayable
 {
     private array $m_services;
     private string $m_version;
-    private array $m_volumes;
+    private array $m_namedVolumeConfigs;
 
 
     public function __construct(
@@ -17,7 +17,7 @@ final class DockerCompose implements \Stringable, InterfaceArrayable
     {
         $this->m_services = $services;
         $this->m_version = $version;
-        $this->m_volumes = array();
+        $this->m_namedVolumeConfigs = array();
 
         foreach ($this->m_services as $service)
         {
@@ -29,9 +29,28 @@ final class DockerCompose implements \Stringable, InterfaceArrayable
                 foreach ($volumes as $volume)
                 {
                     /* @var $volume Volume */
-                    if ($volume->getName() !== null)
+                    if ((string)$volume->getType() === (string)VolumeType::createVolume())
                     {
-                        $this->m_volumes[$volume->getName()] = $volume;
+                        $newNamedVolumeConfig = $volume->getNamedVolumeConfig();
+
+                        if (isset($this->m_namedVolumeConfigs[$newNamedVolumeConfig->getName()]))
+                        {
+                            $existingVolumeConfig = $this->m_namedVolumeConfigs[$newNamedVolumeConfig->getName()];
+
+                            if ($existingVolumeConfig->getId() !== $newNamedVolumeConfig->getId())
+                            {
+                                $errMsg =
+                                    "You have created two named volumes that share the same name, but which do " .
+                                    "not share the same configuration. Either change one of their names, or " .
+                                    "construct both of them with the same NamedVolumeConfig object";
+
+                                throw new \Exception($errMsg);
+                            }
+                        }
+                        else
+                        {
+                            $this->m_namedVolumeConfigs[$newNamedVolumeConfig->getName()] = $newNamedVolumeConfig;
+                        }
                     }
                 }
             }
@@ -56,32 +75,32 @@ final class DockerCompose implements \Stringable, InterfaceArrayable
                     throw new \Exception("You have two services named {$service->getName()}. Please give each service a unique name.");
                 }
 
-                $servicesArray[$service->getName()] = $service->toArray();
+                if (count($service->toArray()) > 0)
+                {
+                    $servicesArray[$service->getName()] = $service->toArray();
+                }
+                else
+                {
+                    $servicesArray[$service->getName()] = null;
+                }
             }
 
             $arrayForm['services'] = $servicesArray;
 
-            // @TODO - add proper support for volumes, allowing the user to specify drivers etc.
-            if (count($this->m_volumes) > 0)
+            if (count($this->m_namedVolumeConfigs) > 0)
             {
                 $arrayForm['volumes'] = array();
 
-                foreach ($this->m_volumes as $name => $volume)
+                foreach ($this->m_namedVolumeConfigs as $name => $volumeConfig)
                 {
-                    $volumeArray = array(
-                        'driver' => $volume->getDriver()
-                    );
-
-                    if (count($volume->getDriverOptions()) > 0)
+                    if (count($volumeConfig->toArray()) > 0)
                     {
-                        foreach ($volume->getDriverOptions() as $option)
-                        {
-                            /* @var $option DriverOption */
-                            $volumeArray['driver_opts'][] = $option->toArray();
-                        }
+                        $arrayForm['volumes'][$name] = $volumeConfig->toArray();
                     }
-
-                    $arrayForm['volumes'][$name] = $volumeArray;
+                    else
+                    {
+                        $arrayForm['volumes'][$name] = null;
+                    }
                 }
             }
         }
