@@ -95,4 +95,13 @@ final class DockerCompose implements \Stringable, InterfaceArrayable
         return yaml_emit($this->toArray());
     }
 
+
+    /**
+     * Save this to a file.
+     * @param string $filepath
+     */
+    public function save(string $filepath) : void
+    {
+        file_put_contents($filepath, string($this));
+    }
 }
