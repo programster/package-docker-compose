@@ -40,7 +40,7 @@ final class Volume implements InterfaceArrayable
         string $containerPath,
         bool $isReadOnly = false,
         bool $noCopy = false,
-        ?string $consistency = null,
+        ?Consistency $consistency = null,
         string $driver = "local",
         DriverOption ...$driverOptions
     ) : Volume
@@ -62,7 +62,7 @@ final class Volume implements InterfaceArrayable
         string $containerPath,
         bool $isReadOnly = false,
         bool $noCopy = false,
-        ?string $consistency = null,
+        ?Consistency $consistency = null,
         string $driver = "local",
         DriverOption ...$driverOptions
     ) : Volume
@@ -103,7 +103,7 @@ final class Volume implements InterfaceArrayable
         bool $isReadOnly = false,
         bool $createHostPath = true,
         ?BindPropagationMode $propagationMode = null,
-        ?string $consistency = null,
+        ?Consistency $consistency = null,
         string $driver = "local",
         DriverOption ...$driverOptions
     ) : Volume
@@ -140,7 +140,7 @@ final class Volume implements InterfaceArrayable
         string $containerPath,
         bool $isReadOnly = false,
         ?int $sizeInBytes = null,
-        ?string $consistency = null,
+        ?Consistency $consistency = null,
         string $driver = "local",
         DriverOption ...$driverOptions
     ) : Volume
@@ -172,7 +172,7 @@ final class Volume implements InterfaceArrayable
         string $hostPath,
         string $containerPath,
         bool $isReadOnly = false,
-        ?string $consistency = null,
+        ?Consistency $consistency = null,
         string $driver = "local",
         DriverOption ...$driverOptions
     ) : Volume
