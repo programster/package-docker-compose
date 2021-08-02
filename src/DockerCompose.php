@@ -11,7 +11,7 @@ final class DockerCompose implements \Stringable, InterfaceArrayable
 
 
     public function __construct(
-        string $version = "3.8",
+        string $version = "3.9",
         Service ...$services
     )
     {
