@@ -3,7 +3,7 @@
 namespace Programster\DockerCompose;
 
 
-final class DockerCompose implements \Stringable, InterfaceArrayable
+final class DockerCompose implements \JsonSerializable, \Stringable, InterfaceArrayable
 {
     private array $m_services;
     private string $m_version;
@@ -109,9 +109,17 @@ final class DockerCompose implements \Stringable, InterfaceArrayable
     }
 
 
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
+
+
     public function __toString()
     {
-        return yaml_emit($this->toArray());
+        $jsonEncoded = json_encode($this);
+        $pureArrayForm = json_decode($jsonEncoded, true);
+        return yaml_emit($pureArrayForm);
     }
 
 

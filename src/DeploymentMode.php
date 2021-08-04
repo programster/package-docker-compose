@@ -8,7 +8,7 @@
 namespace Programster\DockerCompose;
 
 
-class DeploymentMode implements InterfaceArrayable
+class DeploymentMode implements \JsonSerializable, InterfaceArrayable
 {
     private string $m_mode;
     private ?int $m_replicas;
@@ -56,6 +56,13 @@ class DeploymentMode implements InterfaceArrayable
     }
 
 
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
+
+
+    # Accessors
     public function getReplicas() : ?int { return $this->m_replicas; }
     public function getMode() : string { return $this->m_mode; }
     public function getMaxReplicasPerNode() : ?int { return $this->m_maxReplicasPerNode; }

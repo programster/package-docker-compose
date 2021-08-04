@@ -6,7 +6,7 @@
 
 namespace Programster\DockerCompose;
 
-class RestartCondition implements \Stringable
+class RestartCondition implements \Stringable, \JsonSerializable
 {
     private string $m_condition;
 
@@ -40,5 +40,11 @@ class RestartCondition implements \Stringable
     public function __toString()
     {
         return $this->m_condition;
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this->toArray();
     }
 }

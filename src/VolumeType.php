@@ -8,7 +8,7 @@
 namespace Programster\DockerCompose;
 
 
-final class VolumeType implements \Stringable
+final class VolumeType implements \Stringable, \JsonSerializable
 {
     private string $m_type;
 
@@ -27,5 +27,11 @@ final class VolumeType implements \Stringable
     public function __toString()
     {
         return $this->m_type;
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
     }
 }

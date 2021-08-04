@@ -7,7 +7,7 @@
 namespace Programster\DockerCompose;
 
 
-class RestartEnum implements \Stringable
+class RestartEnum implements \Stringable, \JsonSerializable
 {
     private string $m_value;
 
@@ -45,5 +45,11 @@ class RestartEnum implements \Stringable
     public function __toString()
     {
         return $this->m_value;
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
     }
 }

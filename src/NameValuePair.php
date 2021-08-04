@@ -8,7 +8,7 @@
 namespace Programster\DockerCompose;
 
 
-final class DriverOption implements InterfaceArrayable
+final class NameValuePair implements InterfaceArrayable, \JsonSerializable
 {
     private string $m_name;
     private mixed $m_value;
@@ -25,4 +25,14 @@ final class DriverOption implements InterfaceArrayable
     {
         return array($this->m_name => $this->m_value);
     }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
+
+    
+    # Accessors
+    public function getName() : string { return $this->m_name; }
+    public function getValue() : mixed { return $this->m_value; }
 }

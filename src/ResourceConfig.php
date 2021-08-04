@@ -8,7 +8,7 @@
 namespace Programster\DockerCompose;
 
 
-final class ResourceConfig implements InterfaceArrayable
+final class ResourceConfig implements InterfaceArrayable, \JsonSerializable
 {
     private float $m_cpuLimit;
     private float $m_cpuReservation;
@@ -69,5 +69,11 @@ final class ResourceConfig implements InterfaceArrayable
         }
 
         return $arrayForm;
+    }
+    
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }

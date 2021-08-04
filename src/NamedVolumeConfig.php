@@ -7,7 +7,7 @@
 namespace Programster\DockerCompose;
 
 
-final class NamedVolumeConfig implements InterfaceArrayable
+final class NamedVolumeConfig implements InterfaceArrayable, \JsonSerializable
 {
     private static $s_counter = 0;
     private int $m_id;
@@ -19,7 +19,7 @@ final class NamedVolumeConfig implements InterfaceArrayable
     public function __construct(
         string $name,
         ?string $driver = null,
-        DriverOption ...$driverOptions,
+        NameValuePair ...$driverOptions,
     )
     {
         NamedVolumeConfig::$s_counter++;
@@ -44,7 +44,7 @@ final class NamedVolumeConfig implements InterfaceArrayable
 
                 foreach ($this->m_driverOptions as $option)
                 {
-                    /* @var $option DriverOption */
+                    /* @var $option NameValuePair */
                     $arrayForm['driver_opts'][] = $option->toArray();
                 }
             }
@@ -53,6 +53,11 @@ final class NamedVolumeConfig implements InterfaceArrayable
         return $arrayForm;
     }
 
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
 
 
     # Accessors

@@ -7,7 +7,7 @@
 namespace Programster\DockerCompose;
 
 
-final class Network implements InterfaceArrayable
+final class Network implements InterfaceArrayable, \JsonSerializable
 {
     private string $m_name;
     private ?string $m_driver;
@@ -73,5 +73,10 @@ final class Network implements InterfaceArrayable
         );
     }
 
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
 }
 

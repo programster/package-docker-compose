@@ -7,7 +7,7 @@
 namespace Programster\DockerCompose;
 
 
-final class Volume implements InterfaceArrayable
+final class Volume implements InterfaceArrayable, \JsonSerializable
 {
     private ?NamedVolumeConfig $m_namedVolumeConfig = null;
     private string $m_type;
@@ -77,7 +77,7 @@ final class Volume implements InterfaceArrayable
         ?BindPropagationMode $propagationMode = null,
         ?Consistency $consistency = null,
         string $driver = "local",
-        DriverOption ...$driverOptions
+        NameValuePair ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -114,7 +114,7 @@ final class Volume implements InterfaceArrayable
         ?int $sizeInBytes = null,
         ?Consistency $consistency = null,
         string $driver = "local",
-        DriverOption ...$driverOptions
+        NameValuePair ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -146,7 +146,7 @@ final class Volume implements InterfaceArrayable
         bool $isReadOnly = false,
         ?Consistency $consistency = null,
         string $driver = "local",
-        DriverOption ...$driverOptions
+        NameValuePair ...$driverOptions
     ) : Volume
     {
         $volume = new Volume();
@@ -218,6 +218,12 @@ final class Volume implements InterfaceArrayable
         }
 
         return $arrayForm;
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 
 

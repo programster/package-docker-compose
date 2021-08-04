@@ -6,7 +6,7 @@
 
 namespace Programster\DockerCompose;
 
-class TimePeriod implements \Stringable
+class TimePeriod implements \Stringable, \JsonSerializable
 {
     private int $m_numUnits;
     private TimeUnit $m_unitType;
@@ -20,4 +20,10 @@ class TimePeriod implements \Stringable
 
 
     public function __toString() { return "{$numUnits}{$unitType}"; }
+
+    
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
+    }
 }

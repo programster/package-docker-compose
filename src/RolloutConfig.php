@@ -8,7 +8,7 @@
 namespace Programster\DockerCompose;
 
 
-class RolloutConfig implements InterfaceArrayable
+class RolloutConfig implements InterfaceArrayable, \JsonSerializable
 {
     private ?int $m_parallelism;
     private ?TimePeriod $m_delay;
@@ -86,5 +86,11 @@ class RolloutConfig implements InterfaceArrayable
         }
 
         return $arrayForm;
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }

@@ -4,7 +4,7 @@
 namespace Programster\DockerCompose;
 
 
-final class DeployConfig implements InterfaceArrayable
+final class DeployConfig implements \JsonSerializable, InterfaceArrayable
 {
     private ?ResourceConfig $m_resourceConfig;
     private ?DeploymentMode $m_deploymentMode;
@@ -80,5 +80,11 @@ final class DeployConfig implements InterfaceArrayable
         }
 
         return $arrayForm;
+    }
+
+    
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }

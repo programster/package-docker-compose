@@ -7,7 +7,7 @@
 
 namespace Programster\DockerCompose;
 
-class FailureAction implements \Stringable
+class FailureAction implements \Stringable, \JsonSerializable
 {
     private string $m_action;
 
@@ -17,10 +17,16 @@ class FailureAction implements \Stringable
         $this->m_action = $action;
     }
 
+    
+    public function __toString() { return $this->m_action; }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
+    }
+
 
     public static function createPause() : FailureAction { return new FailureAction("pause"); }
     public static function createContinue() : FailureAction { return new FailureAction("continue"); }
-
-
-    public function __toString() { return $this->m_action; }
 }

@@ -9,7 +9,7 @@
 namespace Programster\DockerCompose;
 
 
-final class RestartPolicy implements InterfaceArrayable
+final class RestartPolicy implements InterfaceArrayable, \JsonSerializable
 {
     private ?RestartCondition $m_condition;
     private ?TimePeriod $m_delay;
@@ -56,5 +56,11 @@ final class RestartPolicy implements InterfaceArrayable
         }
 
         return $arrayForm;
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }

@@ -7,7 +7,7 @@
 
 namespace Programster\DockerCompose;
 
-class PlacementConfig implements InterfaceArrayable
+class PlacementConfig implements InterfaceArrayable, \JsonSerializable
 {
     private array $m_settings;
 
@@ -24,5 +24,11 @@ class PlacementConfig implements InterfaceArrayable
     public function toArray(): array
     {
         return $this->m_settings;
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }

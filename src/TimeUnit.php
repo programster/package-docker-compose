@@ -5,7 +5,7 @@
 
 namespace Programster\DockerCompose;
 
-class TimeUnit implements \Stringable
+class TimeUnit implements \Stringable, \JsonSerializable
 {
     private string $m_unit;
 
@@ -41,5 +41,10 @@ class TimeUnit implements \Stringable
     public function __toString()
     {
         return $this->m_unit;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
     }
 }

@@ -7,7 +7,7 @@
 namespace Programster\DockerCompose;
 
 
-final class Port implements \Stringable
+final class Port implements \Stringable, \JsonSerializable
 {
     private int $m_containerPort;
     private ?int $m_hostPort;
@@ -29,6 +29,12 @@ final class Port implements \Stringable
     public function __toString()
     {
         return ($this->m_hostPort !== null) ? "{$this->m_hostPort}:{$this->m_containerPort}" : "{$this->m_containerPort}";
+    }
+
+    
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
     }
 }
 

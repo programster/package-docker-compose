@@ -7,7 +7,7 @@
 
 namespace Programster\DockerCompose;
 
-final class RollbackOrder implements \Stringable
+final class RollbackOrder implements \Stringable, \JsonSerializable
 {
     private string $m_order;
 
@@ -34,4 +34,10 @@ final class RollbackOrder implements \Stringable
 
 
     public function __toString() { return $this->m_order; }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
+    }
 }

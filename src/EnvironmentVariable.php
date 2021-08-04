@@ -7,7 +7,7 @@
 namespace Programster\DockerCompose;
 
 
-final class EnvironmentVariable implements \Stringable
+final class EnvironmentVariable implements \JsonSerializable, \Stringable
 {
     private string $m_name;
     private string $m_value;
@@ -22,6 +22,12 @@ final class EnvironmentVariable implements \Stringable
     public function __toString()
     {
         return "{$this->m_name}={$this->m_value}";
+    }
+
+
+    public function jsonSerialize(): mixed
+    {
+        return (string)$this;
     }
 
 
