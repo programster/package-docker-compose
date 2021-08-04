@@ -108,7 +108,7 @@ final class Service implements \JsonSerializable, InterfaceArrayable
 
         if ($this->m_buildConfiguration !== null)
         {
-            $arrayForm['build'] = (string)$this->m_build;
+            $arrayForm['build'] = $this->m_buildConfiguration;
         }
 
         if ($this->m_ports !== null && count($this->m_ports) > 0)
