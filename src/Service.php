@@ -21,6 +21,7 @@ final class Service implements \JsonSerializable, InterfaceArrayable
     private ?ServiceCollection $m_dependencies;
     private ?BuildConfiguration $m_buildConfiguration;
     private ?LoggingConfiguration $m_loggingConfiguration;
+    private ?array $m_links;
 
 
     /**
@@ -95,6 +96,7 @@ final class Service implements \JsonSerializable, InterfaceArrayable
         $this->m_deploymentConfig = $deploymentConfig;
         $this->m_dependencies = $dependencies;
         $this->m_loggingConfiguration = $logging;
+        $this->m_links = $links;
     }
 
 
